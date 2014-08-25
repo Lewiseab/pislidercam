@@ -17,7 +17,7 @@ def backwards(delay, steps, photos, shutter, photorun,bulb):
 	while photos >= 1:
 		time.sleep(1)
 		GPIO.output(shutter_pin, 1)
-		time.sleep(bulb)
+		time.sleep(bulb) #Used to ensure camera senses trigger - hard defined alomgside user inputs
 		GPIO.output(shutter_pin, 0)
 		time.sleep(shutter)
 		photos = photos - 1
