@@ -16,15 +16,15 @@ GPIO.setup(coil_B_2_pin, GPIO.OUT)
 def backwards(delay, steps, photos, shutter, photorun,bulb):
 	while photos >= 1:
 		time.sleep(1)
-		GPIO.output(shutter_pin, 1)
+		GPIO.output(shutter_pin, 1) # closes shutter circuit
 		time.sleep(bulb) #Used to ensure camera senses trigger - hard defined alomgside user inputs
-		GPIO.output(shutter_pin, 0)
-		time.sleep(shutter)
+		GPIO.output(shutter_pin, 0) # opens shutter circuit
+		time.sleep(shutter) # waits for the camera to finsih its exposure
 		photos = photos - 1
-		print "\n" * 40 #Used to clear the console
+		print "\n" * 60 #Used to clear the console
 		print "There are",photos, "photo(s) remaining to be shot of the",photorun, "you asked for."
 		print "\n"
-		remtime = ((shutter+2)*photos)/60
+		remtime = ((shutter+2)*photos)/60 #Used to clauclate remianing time in minutes - needs to work out seconds with special division
 		print "Bear with me, this will take roughly" ,remtime, "minute(s) to finish..."
 		for i in range(0, steps):
 			setStep(1, 0, 0, 1)
