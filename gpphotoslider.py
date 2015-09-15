@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import os
 GPIO.setmode(GPIO.BCM)
 shutter_pin = 18
 coil_A_1_pin = 4
@@ -16,10 +17,11 @@ GPIO.setup(coil_B_2_pin, GPIO.OUT)
 def backwards(delay, steps, photos, shutter, photorun,bulb):
 	while photos >= 1:
 		time.sleep(1)
-		GPIO.output(shutter_pin, 1) # closes shutter circuit
-		time.sleep(bulb) #Used to ensure camera senses trigger - hard defined alomgside user inputs
-		GPIO.output(shutter_pin, 0) # opens shutter circuit
-		time.sleep(shutter) # waits for the camera to finsih its exposure
+		os.system("gphoto2 --capture-image")
+		# GPIO.output(shutter_pin, 1) # closes shutter circuit
+		# time.sleep(bulb) #Used to ensure camera senses trigger - hard defined alomgside user inputs
+		# GPIO.output(shutter_pin, 0) # opens shutter circuit
+		# time.sleep(shutter) # waits for the camera to finsih its exposure
 		photos = photos - 1
 		print "\n" * 60 #Used to clear the console
 		print "There are",photos, "photo(s) remaining to be shot of the",photorun, "you asked for."
