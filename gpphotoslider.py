@@ -17,7 +17,7 @@ GPIO.setup(coil_B_2_pin, GPIO.OUT)
 def backwards(delay, steps, photos, shutter, photorun,bulb):
 	while photos >= 1:
 		time.sleep(1)
-		os.system("gphoto2 --capture-image-and-download --filename %d%m%y-%H%M%S") #takes the photo, downloads it and time/date stamps it
+		os.system("gphoto2 --capture-image-and-download --filename %d%m%y-%H%M%S.jpg") #takes the photo, downloads it and time/date stamps it
 		photos = photos - 1
 		print "\n" * 60 #Used to clear the console
 		print "There are",photos, "photo(s) remaining to be shot of the",photorun, "you asked for."
@@ -44,9 +44,23 @@ def setStep(w1, w2, w3, w4):
 	GPIO.output(coil_B_2_pin, w4)
 
 while True:
-	delay = 8 #raw_input("Delay between steps (milliseconds)?")
+	delay = 8 #delay between each magnet powering on in steper motor
 	photos = raw_input("How many photos to take?")
-	shutter = raw_input("How long is your shutter speed (seconds)?")
+
+	#runnning the script to retrieve the shutterspeed settings from the camera and store in variable tree
+	tree = os.popen("gphoto2 --get-config shutterspeed").read()
+
+	#save variable tree as a ext file for processing
+	with open("Shutterspeed.txt", "w") as text_file:
+    		text_file.write(format(tree))
+
+	#Lets read the file and retrieve the line with the current shutterspeed
+	f=open('Shutterspeed.txt')
+	shutterspeed_line=f.readlines()
+	shutter_speed =  shutterspeed_line[2]
+	shutter = int(shutter_speed[9:]) + 2
+	print shutter
+
 	steps = raw_input("Move how far between shots?")
 	photorun = photos
 	backwards(int(delay) / 1000.0, int(steps), int(photos), int(shutter) + 1, int(photorun),bulb=0.5)
