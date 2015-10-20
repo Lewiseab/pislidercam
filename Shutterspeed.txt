@@ -1,6 +1,6 @@
 Label: Shutter Speed
 Type: RADIO
-Current: 2
+Current: 1
 Choice: 0 30
 Choice: 1 25
 Choice: 2 20

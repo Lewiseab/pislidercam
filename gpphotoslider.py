@@ -29,7 +29,7 @@ GPIO.setup(coil_B_2_pin, GPIO.OUT)
 def backwards(delay, steps, photos, shutter, photorun,bulb):
 	while photos >= 1:
 		time.sleep(1)
-		os.system("gphoto2 --capture-image-and-download --filename %d%m%y-%H%M%S.jpg") #takes the photo, downloads it and time/date stamps it
+		os.system("gphoto2 --capture-image-and-download --keep --filename %d%m%y-%H%M%S.jpg") #takes the photo, downloads it and time/date stamps it
 		photos = photos - 1
 		print "\n" * 60 #Used to clear the console
 		print "There are",photos, "photo(s) remaining to be shot of the",photorun, "you asked for."
